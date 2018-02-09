@@ -1,7 +1,10 @@
 package br.com.cemil.library.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -23,6 +26,10 @@ public class Livro implements Serializable{
 
     @Column(nullable = false)
     private Boolean locado;
+
+    @JsonIgnoreProperties("livro")
+    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<CopiaLivro> copiaLivros;
 
     public Long getId() {
         return id;
@@ -62,6 +69,14 @@ public class Livro implements Serializable{
 
     public void setLocado(Boolean locado) {
         this.locado = locado;
+    }
+
+    public List<CopiaLivro> getCopiaLivros() {
+        return copiaLivros;
+    }
+
+    public void setCopiaLivros(List<CopiaLivro> copiaLivros) {
+        this.copiaLivros = copiaLivros;
     }
 
     @Override
